@@ -1,0 +1,69 @@
+% IEEE Paper Modifications
+\textwidth 178mm
+\textheight 239mm
+\oddsidemargin -7mm
+\evensidemargin -7mm
+\topmargin -6mm 
+\columnsep 5mm
+\IEEEoverridecommandlockouts % to create the author's affliation portion using \thanks
+
+% Packages
+\usepackage{graphicx,times,amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{silence} % ignore trivial warnings
+\usepackage{lipsum} % for generating dummy text
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{array}
+\usepackage{xfrac}
+\usepackage{svg} % Use SVG Images in LaTeX
+\usepackage{subcaption} % Subfigures package
+\usepackage{makecell} % Allows for line breaks inside table cells
+\usepackage{chngpage} % allows for temporary adjustment of side margins
+\usepackage{microtype} % Better typography
+\usepackage{tabulary} % Automatic table sizing
+\usepackage{hhline}
+\usepackage{hyperref}
+\usepackage{mathtools}
+
+% Bibliography
+\WarningFilter{biblatex}{File 'english-ieee.lbx'}
+\usepackage{bookmark}
+\usepackage[
+  backend=biber,
+  style=ieee,
+  citestyle=numeric,
+  giveninits=true,
+  sorting=nyt,
+  maxbibnames=99,
+  dashed=false,
+  doi=false]{biblatex}
+\DeclareFieldFormat*{title}{``#1''\newunitpunct} % move comma outside the quotation mark
+\addbibresource{references.bib}
+
+\newcommand{\citet}[1]{%
+	\AtNextCite{\defcounter{maxnames}{1}\defcounter{minnames}{1}}%
+	\citeauthor{#1}%
+}
+
+% Commands for highlighting text
+\newcommand{\hlred}[2][Lavender]{{\sethlcolor{#1}\hl{#2}}}
+\newcommand{\hlblue}[2][SkyBlue]{{\sethlcolor{#1}\hl{#2}}}
+\newcommand{\hlyellow}[2][GreenYellow]{{\sethlcolor{#1}\hl{#2}}}
+\newcommand{\hlgreen}[2][YellowGreen]{{\sethlcolor{#1}\hl{#2}}}
+
+% Commands for image/figure insertion
+\newcommand*{\RootPicDir}{pic}
+\newcommand*{\PicDir}{\RootPicDir}
+\newcommand*{\ResetPicDir}{\renewcommand*{\PicDir}{\RootPicDir}}
+\newcommand*{\SetPicSubDir}[1]{\renewcommand*{\PicDir}{\RootPicDir /#1}}
+\newcommand*{\Pic}[2]{\PicDir /#2.#1}
+% \newcommand*{\RootExpDir}{exp}
+% \newcommand*{\ExpDir}{\RootExpDir}
+% \newcommand*{\ResetExpDir}{\renewcommand*{\ExpDir}{\RootExpDir}}
+% \newcommand*{\SetExpSubDir}[1]{\renewcommand*{\ExpDir}{\RootExpDir /#1}}
+% \newcommand*{\Exp}[2]{\ExpDir /#2.#1}
+% \newcommand*{\BeforeCaptionVSpace}{1ex}
+% \newcommand*{\BeforeSubCaptionVSpace}{0.75ex}

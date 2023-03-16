@@ -1,3 +1,7 @@
+mkdir -p output
 cd src
-pdflatex --output-directory=../ *.tex
+
+# Build multiple times
+pdflatex --output-directory=../output paper.tex
+pdflatex --output-directory=../output paper.tex
 
