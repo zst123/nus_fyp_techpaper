@@ -1,11 +1,17 @@
-% paper title: Must keep \ \\ \LARGE\bf in it to leave enough margin.
-\title{\ \\ \LARGE\bf Sample Paper for CEC 2007: The IEEE 
- Congress on Evolutionary Computation\thanks{K. C. Tan is with the
-Department of Electrical and Computer Engineering,National University of Singapore, 4 Enginnering Drive 3, Sinagpore
-(phone: 65-6516-2721; fax: 65-6779-1103; email: eletankc@nus.edu.sg).}
+% My paper
+\def\myname{Manzel Joseph Seet}
+\def\mytitle{Designing Memristor-based Hardware Accelerator \\ for Neural Network Operations}
+\newcommand\myaddress{
+    \parbox{\linewidth}{
+        \centering
+        Department of Electrical and Computer Engineering \\
+        National University of Singapore
+    }
 }
 
-\author{K. C. Tan, {\it Member, IEEE}}
+% paper title: Must keep \ \\ \LARGE\bf in it to leave enough margin.
+\title{\ \\ \huge \mytitle}
+\author{\myname \\ \vspace{0.2em} {\emph{\myaddress}}}
 % avoiding spaces at the end of the author lines is not a problem with
 % conference papers because we don't use \thanks or \IEEEmembership
 % use only for invited papers

@@ -1,6 +1,6 @@
 % IEEE Paper Modifications
 \textwidth 178mm
-\textheight 239mm
+\textheight 250mm
 \oddsidemargin -7mm
 \evensidemargin -7mm
 \topmargin -6mm 
@@ -27,6 +27,9 @@
 \usepackage{hhline}
 \usepackage{hyperref}
 \usepackage{mathtools}
+\usepackage{url} % Fix overflowing bibliography url
+\usepackage{amssymb} % Slanted fraction \sfrac
+\usepackage{xcolor,colortbl} % Highlight row in latex
 
 % Bibliography
 \WarningFilter{biblatex}{File 'english-ieee.lbx'}
@@ -67,3 +70,8 @@
 % \newcommand*{\Exp}[2]{\ExpDir /#2.#1}
 % \newcommand*{\BeforeCaptionVSpace}{1ex}
 % \newcommand*{\BeforeSubCaptionVSpace}{0.75ex}
+
+% Additional modification for smaller font
+\usepackage{caption}
+\captionsetup[figure]{font=footnotesize} % Figure caption
+\renewcommand*{\bibfont}{\normalfont\footnotesize} % Reference list 

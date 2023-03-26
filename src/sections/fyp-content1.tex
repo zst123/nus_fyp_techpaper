@@ -1,0 +1,118 @@
+\ResetPicDir{}
+\SetPicSubDir{fyp_methodology}
+
+\section{Dual Crossbar Array Approach}
+% Properties of the memristor CBA
+% MAC operation
+% Mapping of Binarised Neural Networks
+% Negative number representation
+% Zero conductance representation
+% Voltage biasing
+
+\subsection{Memristor device-level constraints}
+\label{Dual Crossbar Array Approach:Memristor device-level constraints}
+Memristor CBAs perform in-memory computation of the MAC operation. The ANN weights are stored in the memory by mapping it to the conductance states of the memristor CBA. However, there are several difficulties when representing numbers on a single CBA. Firstly, a memristor device can only reliably achieve binary states with the present technologies due to issues such as conductance drifts in intermediate states \cite{Ielmini_2016}. Since a memristor's resistance and conductance can only be positive, negative numbers cannot be represented with a single CBA. In addition, the memristor's high resistance state is finite, hence zero cannot be represented because its conductance cannot reach 0 $\mho$. The dual CBA approach is used to solve these issues.
+
+\subsection{Representing zero and negative numbers}
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=1.0\linewidth]{\Pic{png}{method_gnd_cba}}
+    \caption{The outputs are tied together such that the summation of individual currents from both CBAs gives the actual result}
+    \label{fig:method_gnd_cba}
+\end{figure}
+
+Using the dual CBA approach, the conductance values are programmed across two CBAs. $\mathbf{G_A}$ and $\mathbf{G_B}$ are arrays with only positive values, and the numbers are represented by taking $\mathbf{G = G_A - G_B}$ which is the difference between the two CBAs. By splitting the number across two memristor devices, negative numbers are achieved if $G_A < G_B$ and zero is represented if $G_A = G_B$. The method of obtaining the current result is shown in \autoref{fig:method_gnd_cba}. 
+
+\section{Hardware Architecture}
+% Hardware Architecture
+% Current-to-Voltage Conversion
+% Activation Function
+% Analog Voltage Buffer
+% Inclusion of Activation Function
+% Body Effect as Control Signa
+% Summary of neuron circuitry
+
+\begin{figure}[h!]
+    \centerline{\includegraphics[width=1.0\linewidth]{\Pic{png}{hardware_feedforward_architecture_new}}}
+    \caption{Hardware architecture for MNIST feedforward accelerator}
+    \label{fig:hardware_feedforward_architecture_new}
+\end{figure}
+
+The proposed hardware architecture for a MNIST classifier with one-hidden layer is shown in \autoref{fig:hardware_feedforward_architecture_new}. A binarised neural network (BNN) is implemented due to the constraints in \autoref{Dual Crossbar Array Approach:Memristor device-level constraints}. Note that only the weights are binarised. Two sets of dual-CBAs are used which corresponds to the input-hidden layer weights and hidden-output layer weights.
+
+\subsection{Neuron circuit implementation}
+
+\phantom{\tiny --} \vspace{-1.5em} % Force figure to be below header
+\begin{figure}[h!]
+    \centerline{\includegraphics[width=1.0\linewidth]{\Pic{png}{block_diagram_neuron}}}
+    \caption{Neuron circuit block diagram}
+    \label{fig:block_diagram_neuron}
+\end{figure}
+
+After the synaptic weights, the neuron circuitry converts the output of the CBA into a usable form to pass on to the next layer. The first step is the Current-to-Voltage Conversion circuit to convert the CBA current output into voltage. In order to save on area, the Current-to-Voltage Conversion also incorporates the Activation Function. Finally, to prevent loading effects between the CBAs, an Analog Voltage Buffer transforms the voltage from a high-impedance input to a low-impedance output. 
+
+\subsection{Analog voltage buffer \& Loading effect}
+
+\begin{figure}[h!]
+    \centerline{\includegraphics[width=0.8\linewidth]{\Pic{png}{block_cmos_buffer}}}
+    \caption{CMOS Voltage Source-Follower Circuit}
+    \label{fig:block_cmos_buffer}
+\end{figure}
+
+The Analog Voltage Buffer is a modified source-follower configuration using complementary MOSFET pairs. Because an NMOS source-follower introduces a voltage drop from the input to the output known as $V_{GS} = V_{TH}$. To eliminate this voltage drop, a complementary PMOS stage is cascaded such that $V_{TH/P} = V_{TH/N}$.
+
+\subsection{Customisable activation functions}
+
+\autoref{fig:block_activation_body_effect} depicts how customisable activation functions can be achieved by making use of the MOSFET body effect as control signals in the Current-to-Voltage converter. Introducing a negative body voltage $V_B$ increases the MOSFET threshold voltage ($V_T$) and effectively disables the MOSFET as it cannot meet the new threshold. Different sets of MOSFETs are designed to mirror current with different ratios so as to choose different activation functions such as Sigmoid, Hard Tanh or Leaky-Relu.
+
+\begin{figure}[h!]
+    \centerline{\includegraphics[width=0.9\linewidth]{\Pic{png}{block_activation_body_effect_vertical}}}
+    \caption{Depiction of control signals using the body effect}
+    \label{fig:block_activation_body_effect}
+\end{figure}
+
+\phantom{\tiny --} \vspace{-1em} % Force figure to be below header
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555
+\ResetPicDir{}
+\SetPicSubDir{fyp_framework}
+
+\section{Circuit Simulation Framework}
+% Generator-Simulator Stack
+% Generation of neural network circuitry
+\vspace{0.5em}
+
+\subsection{Simulation Backend \& Abstraction API}
+
+\phantom{\tiny --} \vspace{-1.2em} % Force figure to be below header
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\linewidth]{\Pic{png}{abstraction_layers_ca2}}
+    \caption{\centering Abstraction layer for the actual hardware (left) and simulation
+    backend (right)}
+    \label{fig:abstraction_layers_ca2}
+\end{figure}
+
+\vspace{-0.5em}
+
+To validate the functionality of the proposed circuits, a Python package interfaces the results from the SPICE simulation backend exposed via a software API. \autoref{fig:abstraction_layers_ca2} shows the abstraction layer for the simulation APIs and how it connects to the high-level ANN application. Note that future hardware developments can maintain interoperability by swapping out the driver to connect to an actual CBA.
+
+\subsection{Generation of neural network circuitry}
+
+A Python generator stack was created to auto-generate the SPICE schematic and subcircuits for any desired ANN architecture. The configurable parameters involve the CBA size, memristor resistance states and neuron activation function. For the initial functional verification, an ANN architecture of $4 \times 2 \times 3$ in \autoref{framework:fig:generated_cba:4x2x3} was tested. Subsequently, a larger network of $100\times 50\times 10$  in \autoref{framework:fig:generated_cba:100x50x10} was used for demonstrating the MNIST classification.
+
+% Network consists of two sets (crossbar array (CBA) and neuron circuit) cascaded together
+
+\begin{figure}[h!]
+    \centerline{\includegraphics[width=\linewidth]{\Pic{png}{generated_4x2x3}}}
+    \caption{Auto-generated network of $4\times 2\times 3$ \textendash{} for testing purposes}
+    \label{framework:fig:generated_cba:4x2x3}
+\end{figure}
+
+\begin{figure}[h!]
+    \centerline{\includegraphics[width=\linewidth]{\Pic{png}{generated_100x50x10}}}
+    \caption{Auto-generated network of $100\times 50\times 10$ \textendash{} for MNIST model demo}
+    \label{framework:fig:generated_cba:100x50x10}
+\end{figure}

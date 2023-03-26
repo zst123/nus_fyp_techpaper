@@ -1,10 +1,13 @@
 \defbibnote{PubListPrenote}{%
 % provide some text, if any, before the list of publications
-\\ % Space after header
 }
 \defbibnote{PubListPostnote}{%
 % provide some text, if any, after the list of publications
 }
+
+% Fix overflowing bibliography url
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
 
 \bookmarksetup{startatroot}
 % \newrefcontext[sorting=none]
@@ -38,50 +41,3 @@
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-
-
-\def\V{\rm vol.~}
-\def\N{no.~}
-\def\pp{pp.~}
-\def\Pot{\it Proc. }
-\def\IJCNN{\it International Joint Conference on Neural Networks\rm }
-\def\ACC{\it American Control Conference\rm }
-\def\SMC{\it IEEE Trans. Systems\rm , \it Man\rm , and \it Cybernetics\rm }
-
-\def\handb{ \it Handbook of Intelligent Control: Neural\rm , \it
-    Fuzzy\rm , \it and Adaptive Approaches \rm }
-                         
-    
-    
-\begin{thebibliography}{1}
-\bibitem{cit:del2303} P. G. DeLima and G. G. Yen, 
-``Multiple model fault tolerant control using globalized dual 
-heuristic programming,''
-{\Pot IEEE International Symposium on Intelligent Control}, 
-Houston, TX, Sept. 2003, pp. 523--528. (Invited paper) 
-                                        
-\bibitem{cit:mic77} A. N. Michel and R. K. Miller,
-        {\it Qualitative Analysis of Large Scale Dynamical Systems},
-        New York: Academic Press, 1977.
-	 
-\bibitem{cit:pro97}  D. V. Prokhorov, \it Adaptive Critic Designs and
-    Their Applications\rm  , Ph.D. Dissertation, Texas Tech University,
-     Lubbock, TX, Oct.~1997.
-
-\bibitem{Siedited} J. Si, A. Barto, W. Powell, and D. Wunsch, Editors,
-	{\it Handbook of Learning and Approximate Dynamic Programming}, 
-        New York: IEEE and Wiley, 2004.
-                                           
-\bibitem{cit:wer9213} P. J. Werbos, ``Approximate dynamic programming for
-    real-time control  and neural modeling,'' in
-        \handb (Chapter~13), Edited by D.~A.~White
-    and D.~A.~Sofge, New York, NY: Van Nostrand Reinhold, 1992.
-                                        
-\bibitem{cit:wer2087} P. J. Werbos,
-``Building and understanding adaptive systems: A statistical/numerical
-approach to factory automation and brain research,''
-{\it IEEE Transactions on Systems, Man, and Cybernetics},
-vol. SMC-17, pp. 7--20, Jan./Feb. 1987.
-
-\end{thebibliography}
-% that's all folks
